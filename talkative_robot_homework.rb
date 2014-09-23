@@ -48,3 +48,4 @@ whole_user_name = gets.chomp
 second_let_middle = whole_user_name.split(" ")[1][1].upcase
 puts "Hmmm is your second letter of your middle name a #{second_let_middle}? I bet it is!"
 
+puts "Hey Mr. Instructor Dude"
