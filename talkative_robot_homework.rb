@@ -1,3 +1,5 @@
+require 'pry'
+
 puts "What's your name?"
 user_name = gets.chomp.capitalize
 
@@ -13,6 +15,7 @@ elsif user_age < 1
 	puts "Please put a number greater than 0!"
 else user_age < jamaal_charles_age 
 	puts "You're younger than Jamaal Charles!"
+
 end
 
 puts "Hi #{user_name} who is #{user_age}!"
@@ -42,6 +45,6 @@ whats_up = gets.chomp
 
 puts "Hey, tell me your whole name (first, middle, last) and I'll tell you the 2nd letter of your middle name!"
 whole_user_name = gets.chomp
-second_let_middle = whole_user_name.split[1][1].upcase
+second_let_middle = whole_user_name.split(" ")[1][1].upcase
 puts "Hmmm is your second letter of your middle name a #{second_let_middle}? I bet it is!"
 
