@@ -1,5 +1,18 @@
 require 'pry'
 
+def get_user_info(user)
+	
+	puts "What's your name?"
+	user[:name] = gets.chomp.capitalize
+
+	puts "What gender are you? (M, F)"
+	user[:gender] = gets.chomp.downcase
+
+	puts "What's your age?"
+	user[:age] = gets.chomp.to_i
+
+
+end
 
 def user_gender_response(user)
 	if user[:gender] == "m" 
@@ -20,20 +33,24 @@ def jamaal_charles_age_comparison(user)
 			puts "You're the same age as Jamaal Charles!"
 		when user[:age] < 1
 			puts "Please put a number greater than 0!"
-		else user[:age] < jamaal_charles_age 
+		else
 			puts "You're younger than Jamaal Charles!"
 	end
 end
 
 
 
-def age_75_comparison(user, years_under_75, years_over_75)
+def age_75_comparison(user)
+
 	case 
+
 		when user[:age] < 75
+			years_under_75 = 75 - user[:age]
 			puts "You will be 75 years old in #{years_under_75} years!"
 		when user[:age] == 75
 			puts "You're 75!"
 		when user[:age] > 75
+			years_over_75 = user[:age] - 75
 			puts "You'll be 75 in #{years_over_75} years!"
 		else
 			puts "Please put a positive number!"
@@ -57,10 +74,18 @@ end
 #Now starting the grocery store exercise
 
 
-def item_response(user)
+def ask_random_item(user)
+	user[:grocery_list] = ["eggs", "beer", "milk", "apples", "bacon"]
+	user[:random_item] = user[:grocery_list].sample
+	
+	puts "Did you grab the #{user[:random_item]}?"
+	user[:item_grabbed] = gets.chomp.downcase
+end
+
+def delete_grabbed_item(user)
 	if user[:item_grabbed] == "yes"
 		puts "OK let's cross #{user[:random_item]} off the list!"
-		grocery_list.delete(user[:random_item])
+		user[:grocery_list].delete(user[:random_item])
 	else
 		puts "Well I left it on the list!"
 	end
@@ -72,25 +97,17 @@ end
 
 
 user = {}
-puts "What's your name?"
-user[:name] = gets.chomp.capitalize
 
-puts "What gender are you? (M, F)"
-user[:gender] = gets.chomp.downcase
+get_user_info(user)
+
 user_gender_response(user)
-
-
-puts "What's your age?"
-user[:age] = gets.chomp.to_i
 jamaal_charles_age_comparison(user)
 
 puts "Wow! You're old! Are you a great-great grandmother/father?" if user[:age] > 100
 puts "Wow! You're young!" unless user[:age] > 15
 
 
-years_under_75 = 75 - user[:age]
-years_over_75 = user[:age] - 75
-age_75_comparison(user, years_under_75, years_over_75)
+age_75_comparison(user)
 
 
 user[:gender_slang] = (user[:gender] == "m") ? ("guy") : ("girl")
@@ -125,19 +142,16 @@ puts "Hmmm is your second letter of your middle name a #{user[:middle_name_secon
 
 
 
-grocery_list = ["eggs", "beer", "milk", "apples", "bacon"]
-
-user[:random_item] = grocery_list.sample
-
-puts "Did you grab the #{user[:random_item]}?"
-user[:item_grabbed] = gets.chomp.downcase
-item_response(user)
+ask_random_item(user)
+delete_grabbed_item(user)
 
 
-puts grocery_list
+
+
+puts user[:grocery_list]
 
 puts "Oh yeah! Don't forget the Activia!"
-grocery_list << "activia"
-puts grocery_list
+user[:grocery_list] << "activia"
+puts user[:grocery_list]
 
 
