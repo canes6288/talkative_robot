@@ -103,7 +103,6 @@ end
 
 
 def ask_random_item(user)
-	user[:grocery_list] = ["eggs", "beer", "milk", "apples", "bacon"]
 	user[:random_item] = user[:grocery_list].sample
 end
 
@@ -141,37 +140,34 @@ end
 
 
 #### Starting lab 04
+def pulling_pushing_groceries
+	grocery_list = ["eggs", "beer", "milk", "apples", "bacon"]
 
-# def author_hash(user)
-# 	author = {
-# 		name: "Josh",
-# 		gender: "Male",
-# 		age: "26",
-# 		gender_slang: "guy",
-# 		first_initial: "J",
-# 		destination: "Home",
-# 		first_name_caps: "JOSH",
-# 		full_name: "Joshua Brian Kushner",
-# 		middle_name: "Brian",
-# 		middle_name_second_letter: "R"
+	move_grocery_list = IO.write("grocery_list.txt", grocery_list.join(", "))
 
-# 	}
-# end
+	new_grocery_list = IO.read("grocery_list.txt").chomp.split(",")
 
-# def people_array(user)
-# 	people = [user,author]
+	random_item = new_grocery_list.sample
+	answer = question?("Did you grab the #{random_item}?", ["yes", "no"])
 
-# 	people.reject do |user, author|
-# 	end
-# end
+	if answer == "yes" 
+		new_grocery_list.delete(random_item)
+		puts "OK let's cross #{random_item} off the list!" 
+	else
+		puts "Well I left it on the list"
+	end
 
-def select_by_name(list_of_users, first_name)
-	list_of_users
+	IO.write("grocery_list2.txt", "Your grocery list: #{new_grocery_list.join(", ")}")
 
-
-	
 end
 
+def reject_all_but_author(people)
+	people.reject { |person| person[:full_name] != "Joshua Brian Kushner" }.first
+end
+
+def select_by_name(array_of_users, full_name)
+	array_of_users.select { |user| user[:full_name] == full_name }.first
+end
 
 
 	
@@ -184,59 +180,49 @@ end
 
 user = {}
 
-# get_user_info(user)
-
-# user_gender_response(user)
-
-# jamaal_charles_age_comparison(user)
-# compare_100_and_15_years(user)
-# age_75_comparison(user)
-
-# define_gender_slang(user)
-
-# ask_permission_first_initial(user)
-
-# ask_destination(user)
-
-# ask_second_letter_middle_name(user)
-
-# ask_random_item(user)
-# delete_grabbed_item(user)
-# create_grocery_list(user)
-# add_activia(user)
-
 author = {
-	name: "Josh",
-	gender: "Male",
-	age: "26",
-	gender_slang: "guy",
-	first_initial: "J",
-	destination: "Home",
-	first_name_caps: "JOSH",
-	full_name: "Joshua Brian Kushner",
-	middle_name: "Brian",
-	middle_name_second_letter: "R"
+		name: "Josh",
+		gender: "Male",
+		age: "26",
+		gender_slang: "guy",
+		first_initial: "J",
+		destination: "Home",
+		first_name_caps: "JOSH",
+		full_name: "Joshua Brian Kushner",
+		middle_name: "Brian",
+		middle_name_second_letter: "R"
 
-}
+	}
 
 people = [user, author]
-author = people.reject { |person| author[:full_name] != "Joshua Brian Kushner" }.first
 
-def question?(question, acceptable_replies)
-	answer = ""
-	while acceptable_replies.include?(answer) == false
-		puts "#{question} (#{acceptable_replies.join(', ')})"
-		answer = gets.chomp.downcase
-	end
-	answer
-end
+get_user_info(user)
+
+user_gender_response(user)
+
+jamaal_charles_age_comparison(user)
+compare_100_and_15_years(user)
+age_75_comparison(user)
+
+define_gender_slang(user)
+
+ask_permission_first_initial(user)
+
+ask_destination(user)
+
+ask_second_letter_middle_name(user)
+
+grocery_list = ["eggs", "beer", "milk", "apples", "bacon"]
+ask_random_item(user)
+delete_grabbed_item(user)
+create_grocery_list(user)
+add_activia(user)
+
+pulling_pushing_groceries
+reject_by_name(people)
+select_by_name(people, author[:name])
 
 
-def select_by_name(array_of_users, full_name)
-	selected_person = array_of_users.select { |person| person[:full_name] == "Joshua Brian Kushner" }.first
-end
-
-josh = select_by_name(people, "Josh")
 
 
 
