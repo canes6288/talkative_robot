@@ -1,84 +1,160 @@
 require 'pry'
 
-puts "What's your name?"
-user_name = gets.chomp.capitalize
+def get_user_info(user)
+	
+	puts "What's your name?"
+	user[:name] = gets.chomp.capitalize
 
-puts "What gender are you? (M, F)"
-user_gender = gets.chomp.downcase
+	puts "What gender are you? (M, F)"
+	user[:gender] = gets.chomp.downcase
 
-if user_gender == "m" 
-	puts "Hey you're a guy!"
-else 
-	puts "Hey you're a girl!"
+	puts "What's your age?"
+	user[:age] = gets.chomp.to_i
+end
+
+def question?(question, acceptable_replies)
+	answer = ""
+	while acceptable_replies.include?(answer) == false
+		puts "#{question} (#{acceptable_replies.join(', ')})"
+		answer = gets.chomp.downcase
+	end
+	answer
+end
+
+def user_gender_response(user)
+	if user[:gender] == "m" 
+		puts "Hey you're a guy!"
+	else 
+		puts "Hey you're a girl!"
+	end
 end
 
 
-puts "What's your age?"
-user_age = gets.chomp.to_i
-jamaal_charles_age = 28
 
-puts "Wow! You're old! Are you a great-great grandmother/father?" if user_age > 100
-puts "Wow! You're young!" unless user_age > 15
 
-case
-	when user_age > jamaal_charles_age
-		puts "You're older than Jamaal Charles!  He's only #{jamaal_charles_age}!"
-	when user_age == jamaal_charles_age
-		puts "You're the same age as Jamaal Charles!"
-	when user_age < 1
-		puts "Please put a number greater than 0!"
-	else user_age < jamaal_charles_age 
-		puts "You're younger than Jamaal Charles!"
+def jamaal_charles_age_comparison(user)
+	jamaal_charles_age = 27
+
+	case
+		when user[:age] > jamaal_charles_age
+			puts "You're older than Jamaal Charles!  He's only #{jamaal_charles_age}!"
+		when user[:age] == jamaal_charles_age
+			puts "You're the same age as Jamaal Charles!"
+		when user[:age] < 1
+			puts "Please put a number greater than 0!"
+		else
+			puts "You're younger than Jamaal Charles!"
+	end
 end
 
-#(user_gender == "m") ? user_gender = "guy" : "girl"
+def compare_100_and_15_years(user)
+	puts "Wow! You're old! Are you a great-great grandmother/father?" if user[:age] > 100
+	puts "Wow! You're young!" unless user[:age] > 15
+end
 
-user_greeting = (user_gender == "m" ? "guy" : "girl")
 
-years_less_than_75 = 75 - user_age
-years_older_than_75 = user_age - 75
 
-case 
-	when user_age < 75
-		puts "You will be 75 years old in #{years_less_than_75} years!"
-	when user_age == 75
-		puts "You're 75!"
-	when user_age > 75
-		puts "You'll be 75 in #{years_older_than_75} years!"
+def age_75_comparison(user)
+
+	case 
+
+		when user[:age] < 75
+			years_under_75 = 75 - user[:age]
+			puts "You will be 75 years old in #{years_under_75} years!"
+		when user[:age] == 75
+			puts "You're 75!"
+		when user[:age] > 75
+			years_over_75 = user[:age] - 75
+			puts "You'll be 75 in #{years_over_75} years!"
+		else
+			puts "Please put a positive number!"
+	end
+end
+
+def define_gender_slang(user)
+	user[:gender_slang] = (user[:gender] == "m") ? ("guy") : ("girl")
+	puts "Hey #{user[:name]}, you're a #{user[:gender_slang]} who is #{user[:age]} old!"
+end
+
+def ask_permission_first_initial(user)
+	user[:first_initial] = user[:name].chars.first
+	answer = question?("Do you mind if I call you #{user[:first_initial]}?", ["yes", "no"])
+	puts answer ? "OK, I won't call you that..." : "Cool!"
+end
+
+def ask_destination(user)
+	user[:destination] = question?("Hey #{user[:first_name_caps]}, where are you going!?", ["home", "to wrestle a bear"])
+	puts user[:destination] == "to wrestle a bear" ? "Jesus...you are awesome..." : "Eh, that sounds...OOOOkkkk..."
+end
+
+
+def ask_second_letter_middle_name(user)
+	puts "Hey, tell me your whole name (first, middle, last) and I'll tell you the 2nd letter of your middle name!"
+	user[:full_name] = gets.chomp
+
+	user[:middle_name] = user[:full_name].split(" ")[1]
+	user[:middle_name_second_letter] = user[:middle_name].chars[1].upcase
+	puts "Hmmm is your second letter of your middle name a #{user[:middle_name_second_letter]}? I bet it is!"	
+end
+
+
+
+#Now starting the grocery store exercise
+
+
+def ask_random_item(user)
+	user[:grocery_list] = ["eggs", "beer", "milk", "apples", "bacon"]
+	user[:random_item] = user[:grocery_list].sample
+	
+	puts "Did you grab the #{user[:random_item]}?"
+	user[:item_grabbed] = gets.chomp.downcase
+end
+
+def delete_grabbed_item(user)
+	
+	answer = question?("Did you grab the #{user[:random_item]}?", ["yes", "no"])
+	
+	if answer == "yes" 
+		user[:grocery_list].delete(user[:random_item])
+		puts "OK let's cross #{user[:random_item]} off the list!" 
 	else
-		puts "Please put a positive number!"
-end
-
-puts "Hey #{user_name}, you're a #{user_gender} who is #{user_age} old!"
-
-first_initial = user_name.chars.first
-
-puts "Do you mind if I call you #{first_initial}? (Yes, No)"
-user_first_initial = gets.chomp.downcase
-
-until user_first_initial == "yes" || user_first_initial == "no" do
-		puts "Hey you didn't answer the question with Yes or No!  Do you mind if I call you #{first_initial}? (Yes, No)"
-		user_first_initial = gets.chomp.downcase
+		puts "Well I left it on the list"
+	end
 end
 
 
-puts (user_first_initial == "yes") ? "OK, I won't call you that..." : "Cool!"
-		
+def add_activia(user)
+	puts "Grocery list: #{user[:grocery_list].join(", ")}"
 
-first_name_in_caps = user_name.upcase
+	puts "Oh yeah! Don't forget the Activia!"
+	user[:grocery_list] << "activia"
+	puts "Grocery list: #{user[:grocery_list].join(", ")}"
+end
 
-puts "Hey #{first_name_in_caps}, where are you going!?"
-user_going = gets.chomp
 
-puts user_going == "to wrestle a bear" ? "Jesus...you are awesome..." : "Eh, that sounds...OOOOkkkk..."
 
-puts 'Yo "Dude", what\'s up?'
-whats_up = gets.chomp
 
-puts "Hey, tell me your whole name (first, middle, last) and I'll tell you the 2nd letter of your middle name!"
-whole_user_name = gets.chomp
-middle_name = whole_user_name.split(" ")[1]
-middle_name_second_letter = middle_name.chars[1].upcase
 
-puts "Hmmm is your second letter of your middle name a #{middle_name_second_letter}? I bet it is!"
+user = {}
+
+get_user_info(user)
+
+user_gender_response(user)
+
+jamaal_charles_age_comparison(user)
+compare_100_and_15_years(user)
+age_75_comparison(user)
+
+define_gender_slang(user)
+
+ask_permission_first_initial(user)
+
+ask_destination(user)
+
+ask_second_letter_middle_name(user)
+
+ask_random_item(user)
+delete_grabbed_item(user)
+add_activia(user)
+
 
