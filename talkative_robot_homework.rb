@@ -12,6 +12,14 @@ def get_user_info(user)
 	user[:age] = gets.chomp.to_i
 end
 
+def question?(question, acceptable_replies)
+	answer = ""
+	while acceptable_replies.include?(answer) == false
+		puts "#{question} (#{acceptable_replies.join(', ')})"
+		answer = gets.chomp.downcase
+	end
+	answer
+end
 
 def user_gender_response(user)
 	if user[:gender] == "m" 
@@ -39,6 +47,11 @@ def jamaal_charles_age_comparison(user)
 	end
 end
 
+def compare_100_and_15_years(user)
+	puts "Wow! You're old! Are you a great-great grandmother/father?" if user[:age] > 100
+	puts "Wow! You're young!" unless user[:age] > 15
+end
+
 
 
 def age_75_comparison(user)
@@ -58,17 +71,31 @@ def age_75_comparison(user)
 	end
 end
 
+def define_gender_slang(user)
+	user[:gender_slang] = (user[:gender] == "m") ? ("guy") : ("girl")
+	puts "Hey #{user[:name]}, you're a #{user[:gender_slang]} who is #{user[:age]} old!"
+end
 
+def ask_permission_first_initial(user)
+	user[:first_initial] = user[:name].chars.first
+	answer = question?("Do you mind if I call you #{user[:first_initial]}?", ["yes", "no"])
+	puts answer ? "OK, I won't call you that..." : "Cool!"
+end
 
-def incorrect_response_loop(user)
-	until user[:permission_response] == "yes" || user[:permission_response] == "no" do
-		puts "Hey you didn't answer the question with Yes or No!  Do you mind if I call you #{user[:first_initial]}? (Yes, No)"
-		user[:permission_response] = gets.chomp.downcase
-	end
-	return user[:permission_response]
+def ask_destination(user)
+	user[:destination] = question?("Hey #{user[:first_name_caps]}, where are you going!?", ["home", "to wrestle a bear"])
+	puts user[:destination] == "to wrestle a bear" ? "Jesus...you are awesome..." : "Eh, that sounds...OOOOkkkk..."
 end
 
 
+def ask_second_letter_middle_name(user)
+	puts "Hey, tell me your whole name (first, middle, last) and I'll tell you the 2nd letter of your middle name!"
+	user[:full_name] = gets.chomp
+
+	user[:middle_name] = user[:full_name].split(" ")[1]
+	user[:middle_name_second_letter] = user[:middle_name].chars[1].upcase
+	puts "Hmmm is your second letter of your middle name a #{user[:middle_name_second_letter]}? I bet it is!"	
+end
 
 
 
@@ -84,14 +111,25 @@ def ask_random_item(user)
 end
 
 def delete_grabbed_item(user)
-	if user[:item_grabbed] == "yes"
-		puts "OK let's cross #{user[:random_item]} off the list!"
+	
+	answer = question?("Did you grab the #{user[:random_item]}?", ["yes", "no"])
+	
+	if answer == "yes" 
 		user[:grocery_list].delete(user[:random_item])
+		puts "OK let's cross #{user[:random_item]} off the list!" 
 	else
-		puts "Well I left it on the list!"
+		puts "Well I left it on the list"
 	end
 end
 
+
+def add_activia(user)
+	puts "Grocery list: #{user[:grocery_list].join(", ")}"
+
+	puts "Oh yeah! Don't forget the Activia!"
+	user[:grocery_list] << "activia"
+	puts "Grocery list: #{user[:grocery_list].join(", ")}"
+end
 
 
 
@@ -102,57 +140,21 @@ user = {}
 get_user_info(user)
 
 user_gender_response(user)
+
 jamaal_charles_age_comparison(user)
-
-puts "Wow! You're old! Are you a great-great grandmother/father?" if user[:age] > 100
-puts "Wow! You're young!" unless user[:age] > 15
-
-
+compare_100_and_15_years(user)
 age_75_comparison(user)
 
+define_gender_slang(user)
 
-user[:gender_slang] = (user[:gender] == "m") ? ("guy") : ("girl")
-puts "Hey #{user[:name]}, you're a #{user[:gender_slang]} who is #{user[:age]} old!"
+ask_permission_first_initial(user)
 
-user[:first_initial] = user[:name].chars.first
-puts "Do you mind if I call you #{user[:first_initial]}? (Yes, No)"
-user[:permission_response] = gets.chomp.downcase # Ask for it here
+ask_destination(user)
 
-
-user[:permission_response] = incorrect_response_loop(user) # => will end up == "yes" or == "no"
-puts (user[:permission_response] == "yes") ? "OK, I won't call you that..." : "Cool!"
-		
-
-user[:first_name_caps] = user[:name].upcase
-puts "Hey #{user[:first_name_caps]}, where are you going!?"	
-user[:destination] = gets.chomp
-
-puts user[:destination] == "to wrestle a bear" ? "Jesus...you are awesome..." : "Eh, that sounds...OOOOkkkk..."
-
-
-puts 'Yo "Dude", what\'s up?'
-user[:whats_up] = gets.chomp
-
-puts "Hey, tell me your whole name (first, middle, last) and I'll tell you the 2nd letter of your middle name!"
-user[:full_name] = gets.chomp
-
-user[:middle_name] = user[:full_name].split(" ")[1]
-user[:middle_name_second_letter] = user[:middle_name].chars[1].upcase
-puts "Hmmm is your second letter of your middle name a #{user[:middle_name_second_letter]}? I bet it is!"
-
-
-
+ask_second_letter_middle_name(user)
 
 ask_random_item(user)
 delete_grabbed_item(user)
-
-
-
-
-puts "Grocery list: #{user[:grocery_list].join(", ")}"
-
-puts "Oh yeah! Don't forget the Activia!"
-user[:grocery_list] << "activia"
-puts "Grocery list: #{user[:grocery_list].join(", ")}"
+add_activia(user)
 
 
