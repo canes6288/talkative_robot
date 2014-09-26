@@ -103,12 +103,10 @@ end
 
 
 def ask_random_item(user)
-	user[:grocery_list] = ["eggs", "beer", "milk", "apples", "bacon"]
 	user[:random_item] = user[:grocery_list].sample
-	
-	puts "Did you grab the #{user[:random_item]}?"
-	user[:item_grabbed] = gets.chomp.downcase
 end
+
+
 
 def delete_grabbed_item(user)
 	
@@ -122,20 +120,81 @@ def delete_grabbed_item(user)
 	end
 end
 
+def create_grocery_list(user)
+	item_number = 1
+	while item_number < user[:grocery_list].count
+		user[:grocery_list].map do |grocery| 
+			puts "Item #{item_number} -- #{grocery}"
+			item_number += 1
+		end
+	end
+	
+end
+
 
 def add_activia(user)
-	puts "Grocery list: #{user[:grocery_list].join(", ")}"
-
 	puts "Oh yeah! Don't forget the Activia!"
 	user[:grocery_list] << "activia"
 	puts "Grocery list: #{user[:grocery_list].join(", ")}"
 end
 
 
+#### Starting lab 04
+def pulling_pushing_groceries
+	grocery_list = ["eggs", "beer", "milk", "apples", "bacon"]
+
+	move_grocery_list = IO.write("grocery_list.txt", grocery_list.join(", "))
+
+	new_grocery_list = IO.read("grocery_list.txt").chomp.split(",")
+
+	random_item = new_grocery_list.sample
+	answer = question?("Did you grab the #{random_item}?", ["yes", "no"])
+
+	if answer == "yes" 
+		new_grocery_list.delete(random_item)
+		puts "OK let's cross #{random_item} off the list!" 
+	else
+		puts "Well I left it on the list"
+	end
+
+	IO.write("grocery_list2.txt", "Your grocery list: #{new_grocery_list.join(", ")}")
+
+end
+
+def reject_all_but_author(people)
+	people.reject { |person| person[:full_name] != "Joshua Brian Kushner" }.first
+end
+
+def select_by_name(array_of_users, full_name)
+	array_of_users.select { |user| user[:full_name] == full_name }.first
+end
+
+
+	
+
+
+
+
 
 
 
 user = {}
+
+author = {
+		name: "Josh",
+		gender: "Male",
+		age: "26",
+		gender_slang: "guy",
+		first_initial: "J",
+		destination: "Home",
+		first_name_caps: "JOSH",
+		full_name: "Joshua Brian Kushner",
+		middle_name: "Brian",
+		middle_name_second_letter: "R"
+
+	}
+
+people = [user, author]
 
 get_user_info(user)
 
@@ -153,8 +212,18 @@ ask_destination(user)
 
 ask_second_letter_middle_name(user)
 
+grocery_list = ["eggs", "beer", "milk", "apples", "bacon"]
 ask_random_item(user)
 delete_grabbed_item(user)
+create_grocery_list(user)
 add_activia(user)
+
+pulling_pushing_groceries
+reject_by_name(people)
+select_by_name(people, author[:name])
+
+
+
+
 
 
