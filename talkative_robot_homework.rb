@@ -1,4 +1,5 @@
 require 'pry'
+require 'csv'
 
 def get_user_info(user)
 	
@@ -139,34 +140,54 @@ def add_activia(user)
 end
 
 
+
 #### Starting lab 04
-def pulling_pushing_groceries
-	grocery_list = ["eggs", "beer", "milk", "apples", "bacon"]
+def creating_groceries_txt(user)
+	move_grocery_list = IO.write("grocery_list.txt", user[:grocery_list].join(", "))
+end
 
-	move_grocery_list = IO.write("grocery_list.txt", grocery_list.join(", "))
 
-	new_grocery_list = IO.read("grocery_list.txt").chomp.split(",")
+def crossing_off_the_list_txt_file(user)
+	user[:new_grocery_list] = IO.read("grocery_list.txt").chomp.split(",")
 
-	random_item = new_grocery_list.sample
+	random_item = user[:new_grocery_list].sample
 	answer = question?("Did you grab the #{random_item}?", ["yes", "no"])
 
 	if answer == "yes" 
-		new_grocery_list.delete(random_item)
+		user[:new_grocery_list].delete(random_item)
 		puts "OK let's cross #{random_item} off the list!" 
 	else
 		puts "Well I left it on the list"
 	end
-
-	IO.write("grocery_list2.txt", "Your grocery list: #{new_grocery_list.join(", ")}")
-
+	
 end
+
+
+def pushing_to_grocery_list2_txt(user)
+	IO.write("grocery_list2.txt", "#{user[:new_grocery_list].join(", ")}")
+end
+
+	
+
+# def pushing_grocery_to_csv(user)
+# 	#reads grocery list 2.  Then it will substitute every "," with a new row.
+# 	csv_grocery_list = IO.read("grocery_list2.txt").split(",")
+# 	column_grocery_list = CSV.open("grocery_list3.csv", "w") do |csv|
+#   		csv << csv_grocery_list[0]
+#   		csv << csv_grocery_list[1]
+#   		csv << csv_grocery_list[2]
+#   		csv << csv_grocery_list[3]
+# 	end
+
+
+
 
 def reject_all_but_author(people)
 	people.reject { |person| person[:full_name] != "Joshua Brian Kushner" }.first
 end
 
 def select_by_name(array_of_users, full_name)
-	array_of_users.select { |user| user[:full_name] == full_name }.first
+	array_of_users.select { |person| person[:full_name] == full_name }.first
 end
 
 
@@ -194,6 +215,8 @@ author = {
 
 	}
 
+user[:grocery_list] = ["eggs", "beer", "milk", "apples", "bacon"]
+
 people = [user, author]
 
 get_user_info(user)
@@ -212,14 +235,16 @@ ask_destination(user)
 
 ask_second_letter_middle_name(user)
 
-grocery_list = ["eggs", "beer", "milk", "apples", "bacon"]
 ask_random_item(user)
 delete_grabbed_item(user)
 create_grocery_list(user)
 add_activia(user)
 
-pulling_pushing_groceries
-reject_by_name(people)
+creating_groceries_txt(user)
+crossing_off_the_list_txt_file(user)
+pushing_to_grocery_list2_txt(user)
+# pushing_grocery_to_csv(user)
+reject_all_but_author(people)
 select_by_name(people, author[:name])
 
 
