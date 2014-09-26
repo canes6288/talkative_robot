@@ -136,14 +136,15 @@ def add_activia(user)
 	puts "Oh yeah! Don't forget the Activia!"
 	user[:grocery_list] << "activia"
 	puts "Grocery list: #{user[:grocery_list].join(", ")}"
+	user[:activia_grocery_list] = user[:grocery_list]
 end
+ABCDEFG.....abcdefg
 
 
 #### Starting lab 04
-def pulling_pushing_groceries
-	grocery_list = ["eggs", "beer", "milk", "apples", "bacon"]
+def pulling_pushing_groceries(user)
 
-	move_grocery_list = IO.write("grocery_list.txt", grocery_list.join(", "))
+	move_grocery_list = IO.write("grocery_list.txt", user[:activia_grocery_list].join(", "))
 
 	new_grocery_list = IO.read("grocery_list.txt").chomp.split(",")
 
@@ -166,7 +167,7 @@ def reject_all_but_author(people)
 end
 
 def select_by_name(array_of_users, full_name)
-	array_of_users.select { |user| user[:full_name] == full_name }.first
+	array_of_users.select { |person| person[:full_name] == full_name }.first
 end
 
 
@@ -212,14 +213,14 @@ ask_destination(user)
 
 ask_second_letter_middle_name(user)
 
-grocery_list = ["eggs", "beer", "milk", "apples", "bacon"]
+user[:grocery_list] = ["eggs", "beer", "milk", "apples", "bacon"]
 ask_random_item(user)
 delete_grabbed_item(user)
 create_grocery_list(user)
 add_activia(user)
 
-pulling_pushing_groceries
-reject_by_name(people)
+pulling_pushing_groceries(user)
+reject_all_but_author(people)
 select_by_name(people, author[:name])
 
 
