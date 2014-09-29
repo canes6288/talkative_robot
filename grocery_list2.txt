@@ -1,1 +1,1 @@
-  eggs,  milk,  bacon,  activia
+beer,milk,apples,activia
