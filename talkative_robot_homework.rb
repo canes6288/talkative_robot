@@ -142,6 +142,8 @@ end
 
 
 #### Starting lab 04
+
+
 def creating_groceries_txt(user)
 	move_grocery_list = IO.write("grocery_list.txt", user[:grocery_list].join(", "))
 end
@@ -164,20 +166,24 @@ end
 
 
 def pushing_to_grocery_list2_txt(user)
-	IO.write("grocery_list2.txt", "#{user[:new_grocery_list].join(", ")}")
+	IO.write("grocery_list2.txt", "  #{user[:new_grocery_list].join(", ")}")
 end
 
 	
 
-# def pushing_grocery_to_csv(user)
-# 	#reads grocery list 2.  Then it will substitute every "," with a new row.
-# 	csv_grocery_list = IO.read("grocery_list2.txt").split(",")
-# 	column_grocery_list = CSV.open("grocery_list3.csv", "w") do |csv|
-#   		csv << csv_grocery_list[0]
-#   		csv << csv_grocery_list[1]
-#   		csv << csv_grocery_list[2]
-#   		csv << csv_grocery_list[3]
-# 	end
+def pushing_grocery_to_csv(user)
+	#reads grocery list 2.  Then it will substitute every "," with a new row.
+
+	grocery_list_2 = IO.read("grocery_list2.txt").split(",")
+	
+			CSV.open("grocery_list3.csv", "w") do |csv|  		
+			csv << ["Item Number", "Item name"]
+  		
+  			grocery_list_2.each_index do |i|
+  			csv << ["#{i+1}", "#{grocery_list_2[i]}"]
+  			end
+  		end
+	end
 
 
 
@@ -189,11 +195,6 @@ end
 def select_by_name(array_of_users, full_name)
 	array_of_users.select { |person| person[:full_name] == full_name }.first
 end
-
-
-	
-
-
 
 
 
@@ -219,21 +220,21 @@ user[:grocery_list] = ["eggs", "beer", "milk", "apples", "bacon"]
 
 people = [user, author]
 
-get_user_info(user)
+# get_user_info(user)
 
-user_gender_response(user)
+# user_gender_response(user)
 
-jamaal_charles_age_comparison(user)
-compare_100_and_15_years(user)
-age_75_comparison(user)
+# jamaal_charles_age_comparison(user)
+# compare_100_and_15_years(user)
+# age_75_comparison(user)
 
-define_gender_slang(user)
+# define_gender_slang(user)
 
-ask_permission_first_initial(user)
+# ask_permission_first_initial(user)
 
-ask_destination(user)
+# ask_destination(user)
 
-ask_second_letter_middle_name(user)
+# ask_second_letter_middle_name(user)
 
 ask_random_item(user)
 delete_grabbed_item(user)
@@ -243,7 +244,7 @@ add_activia(user)
 creating_groceries_txt(user)
 crossing_off_the_list_txt_file(user)
 pushing_to_grocery_list2_txt(user)
-# pushing_grocery_to_csv(user)
+pushing_grocery_to_csv(user)
 reject_all_but_author(people)
 select_by_name(people, author[:name])
 
