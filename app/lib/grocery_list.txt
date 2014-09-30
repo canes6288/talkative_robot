@@ -1,1 +1,1 @@
-["eggs", "beer", "apples", "bacon", "activia"]
+["eggs", "beer", "milk", "apples", "activia"]

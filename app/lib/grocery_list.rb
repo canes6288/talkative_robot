@@ -3,6 +3,10 @@ class GroceryList
     @items = items
   end
 
+  def items
+    @items
+  end
+
   def delete_grabbed_item
     random_item = @items.sample
     
@@ -24,10 +28,16 @@ class GroceryList
     @items.join(",")
   end
 
-  def add_activia
+  def dont_forget_activia
     puts "Oh yeah! Don't forget the Activia!"
+  end
+
+  def add_activia
     @items << "activia"
-    puts "Grocery list: #{@items}" ### WHY DOES THIS WORK?? @items is not my object...its @grocery_list
+  end
+
+  def print_horizontal_list
+    puts "Grocery list: #{@items}"
   end
 
   def creating_groceries_files

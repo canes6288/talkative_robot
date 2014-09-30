@@ -1,14 +1,35 @@
+
+
 class Person
   def initialize(person)
-    @name         = person[:name]
-    @gender       = person[:gender]
-    @age          = person[:age]  
-    @full_name    = person[:full_name]
-    @is_author    = false
+    @name                      = person[:name]
+    @gender                    = person[:gender]
+    @age                       = person[:age]  
+    @full_name                 = person[:full_name]
+    @destination               = person[:destination]
+    @gender_slang              = person[:gender_slang]
+    @middle_name_second_letter = person[:middle_name_second_letter]
+    @is_author                 = false
   end
 
   def full_name
     @full_name
+  end
+
+  def name
+    @name
+  end
+
+  def age
+    @age
+  end
+
+  def gender
+    @gender
+  end
+    
+  def last_name
+    @last_name
   end
 
   def to_s
@@ -16,7 +37,7 @@ class Person
   end
 
   def user_gender_response
-    puts male? ? "Hey you're a guy!" : "Hey you're a girl!"
+    male? ? "Hey you're a guy!" : "Hey you're a girl!"
   end
 
 
@@ -62,34 +83,44 @@ class Person
 
 
 
-  def gender_slang
-    gender_slang = male? ? ("guy") : ("girl")
-    puts "Hey #{@name}, you're a #{gender_slang} who is #{@age} old!"
+  def gender_slang_question
+    @gender_slang = male? ? ("guy") : ("girl")
+  end
+
+  def gender_slang_message
+    puts "Hey #{@name}, you're a #{@gender_slang} who is #{@age} old!"
   end
 
 
   def first_initial
       first_initial = @name.chars.first
+  end
+
+  def first_initial_question
       answer = question?("Do you mind if I call you #{first_initial}?", ["yes", "no"])
       puts answer=="yes" ? "OK, I won't call you that..." : "Cool!"
   end
 
-
-
   def ask_destination
-    destination = question?("Hey #{@name.upcase}, where are you going!?", ["home", "to wrestle a bear"])
-    puts destination == "to wrestle a bear" ? "Jesus...you are awesome..." : "Eh, that sounds...OOOOkkkk..."
+    @destination = question?("Hey #{@name.upcase}, where are you going!?", ["home", "to wrestle a bear"])
+  end
+
+  def destination_message
+    @destination == "to wrestle a bear" ? "Jesus...you are awesome..." : "Eh, that sounds...OOOOkkkk..."
   end
 
   def ask_second_letter_middle_name
     middle_name = @full_name.split(" ")[1]
-    middle_name_second_letter = middle_name.chars[1].upcase
-    puts "Hmmm is your second letter of your middle name a #{middle_name_second_letter}? I bet it is!"  
+    @middle_name_second_letter = middle_name.chars[1].upcase
+  end
+
+  def second_letter_middle_name_message
+    puts "Hmmm is your second letter of your middle name a #{@middle_name_second_letter}? I bet it is!"  
   end
 
   private
     def male?
-      @gender == "m"
+      @gender == "m" || @gender == "M"
 
     end
 
