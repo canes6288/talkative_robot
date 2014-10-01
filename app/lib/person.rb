@@ -1,14 +1,13 @@
 
 
 class Person
-  def initialize(person)
-    @name                      = person[:name]
-    @gender                    = person[:gender]
-    @age                       = person[:age]  
-    @full_name                 = person[:full_name]
-    @destination               = person[:destination]
-    @gender_slang              = person[:gender_slang]
-    @middle_name_second_letter = person[:middle_name_second_letter]
+  def initialize(args)
+    @name                      = args[:name]
+    @gender                    = args[:gender]
+    @age                       = args[:age]
+    @full_name                 = args[:full_name]
+    @destination               = args[:destination]
+    @middle_name_second_letter = args[:middle_name_second_letter]
     @is_author                 = false
   end
 
@@ -27,7 +26,7 @@ class Person
   def gender
     @gender
   end
-    
+
   def last_name
     @last_name
   end
@@ -67,7 +66,7 @@ class Person
 
   def age_75_comparison
 
-    case 
+    case
       when @age < 75
         years_under_75 = 75 - @age
         puts "You will be 75 years old in #{years_under_75} years!"
@@ -75,7 +74,7 @@ class Person
         puts "You're 75!"
       when @age > 75
         years_over_75 = @age - 75
-        puts "You'll be 75 in #{years_over_75} years!"
+        puts "You were 75... #{years_over_75} years ago!"
       else
         puts "Please put a positive number!"
     end
@@ -83,17 +82,17 @@ class Person
 
 
 
-  def gender_slang_question
+  def gender_slang
     @gender_slang = male? ? ("guy") : ("girl")
   end
 
   def gender_slang_message
-    puts "Hey #{@name}, you're a #{@gender_slang} who is #{@age} old!"
+    puts "Hey #{@name}, you're a #{gender_slang} who is #{@age} old!"
   end
 
 
   def first_initial
-      first_initial = @name.chars.first
+      @name.chars.first
   end
 
   def first_initial_question
@@ -115,13 +114,11 @@ class Person
   end
 
   def second_letter_middle_name_message
-    puts "Hmmm is your second letter of your middle name a #{@middle_name_second_letter}? I bet it is!"  
+    puts "Hmmm is your second letter of your middle name a #{@middle_name_second_letter}? I bet it is!"
   end
 
   private
     def male?
       @gender == "m" || @gender == "M"
-
     end
-
 end

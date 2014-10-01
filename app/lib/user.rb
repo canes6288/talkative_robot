@@ -3,7 +3,7 @@ class User < Person
     super(user)
   end
 
-  def self.get_user_info
+  def self.get_info
 
     user = {}
 

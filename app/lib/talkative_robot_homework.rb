@@ -17,9 +17,9 @@ def question?(question, acceptable_replies)
 end
 
 
-user_info = User.get_user_info # We don't have a User object yet, but we can call a User class method
+user_info = User.get_info # We don't have a User object yet, but we can call a User class method
 @user = User.new(user_info)    # We create a User object
-@author = Author.new(Author.get_author_info)
+@author = Author.new(Author.get_info)
 
 puts @user.user_gender_response
 @user.jamaal_charles_age_comparison

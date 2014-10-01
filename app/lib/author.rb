@@ -4,9 +4,9 @@ class Author < Person
     @is_author = true
   end
 
-  def self.get_author_info
+  def self.get_info
     author = {
-      name: "Josh", 
+      name: "Josh",
       gender: "Male",
       age: "26",
       gender_slang: "guy",
